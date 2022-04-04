@@ -1,6 +1,7 @@
 package com.bwacomputacao.cursomcrefazendo;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import com.bwacomputacao.cursomcrefazendo.domain.Cidade;
 import com.bwacomputacao.cursomcrefazendo.domain.Cliente;
 import com.bwacomputacao.cursomcrefazendo.domain.Endereco;
 import com.bwacomputacao.cursomcrefazendo.domain.Estado;
+import com.bwacomputacao.cursomcrefazendo.domain.ItemPedido;
 import com.bwacomputacao.cursomcrefazendo.domain.Pagamento;
 import com.bwacomputacao.cursomcrefazendo.domain.PagamentoComBoleto;
 import com.bwacomputacao.cursomcrefazendo.domain.PagamentoComCartao;
@@ -25,6 +27,7 @@ import com.bwacomputacao.cursomcrefazendo.repositories.CidadeRepository;
 import com.bwacomputacao.cursomcrefazendo.repositories.ClienteRepository;
 import com.bwacomputacao.cursomcrefazendo.repositories.EnderecoRepository;
 import com.bwacomputacao.cursomcrefazendo.repositories.EstadoRepository;
+import com.bwacomputacao.cursomcrefazendo.repositories.ItempedidoRepository;
 import com.bwacomputacao.cursomcrefazendo.repositories.PagamentoRepository;
 import com.bwacomputacao.cursomcrefazendo.repositories.PedidoRepository;
 import com.bwacomputacao.cursomcrefazendo.repositories.ProdutoRepository;
@@ -48,7 +51,8 @@ public class CursomcrefazendoApplication implements CommandLineRunner {
 	private PedidoRepository pedidoRepository;
 	@Autowired
 	private PagamentoRepository pagamentoRepository;
-	
+	@Autowired
+	private ItempedidoRepository itemPedidoRepository;
 	
 	
 	public static void main(String[] args) {
@@ -117,6 +121,19 @@ public class CursomcrefazendoApplication implements CommandLineRunner {
      
      pedidoRepository.saveAll(Arrays.asList(ped1, ped2));
      pagamentoRepository.saveAll(Arrays.asList(pagto1, pagto2));
+     
+     ItemPedido ip1 = new ItemPedido(ped1, p1, 0.00, 1, 2000.00);
+     ItemPedido ip2 = new ItemPedido(ped1, p3, 0.00, 2, 80.00);
+     ItemPedido ip3 = new ItemPedido(ped2, p2, 100.00, 1, 800.00);
+     
+     ped1.getItens().addAll(Arrays.asList(ip1, ip2));
+     ped2.getItens().addAll(Arrays.asList(ip3));
+     
+     p1.getItens().addAll(Arrays.asList(ip1));
+     p2.getItens().addAll(Arrays.asList(ip3));
+     p3.getItens().addAll(Arrays.asList(ip2));
+     
+     itemPedidoRepository.saveAll(Arrays.asList(ip1, ip2, ip3));
      
      
      
